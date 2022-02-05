@@ -12,10 +12,23 @@ def read_file():
         adjacencies[b].add(a)
     return adjacencies
 
-
+def color_graph(graph):
+    colors = {}
+    for node in graph:
+        c = ["red", "blue", "green"]
+        for edge in graph[node]:
+            if edge in colors.keys():
+                if colors[edge] in c:
+                    c.remove(colors[edge])
+#             print(colors)
+        colors[node] = c[0]
+    return colors
+    
 def main():
     graph = read_file()
-    print(graph)
+#     print(graph)
+    colors = color_graph(graph)
+    print(colors)
 
 
 if __name__ == "__main__":
