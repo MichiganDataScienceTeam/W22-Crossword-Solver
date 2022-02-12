@@ -20,13 +20,11 @@ def color_graph(graph):
             if edge in colors.keys():
                 if colors[edge] in c:
                     c.remove(colors[edge])
-#             print(colors)
         colors[node] = c[0]
     return colors
     
 def main():
     graph = read_file()
-#     print(graph)
     colors = color_graph(graph)
     print(colors)
 
