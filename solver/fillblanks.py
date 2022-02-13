@@ -71,12 +71,14 @@ def get_constraints(puzzle):
                 candidates[1] if candidates[0][0] == clue_id else candidates[0]
             )
             binary[clue_id][crossing_clue] = (current_idx, crossing_idx)
-
+    print(unary)
+    print(binary)
     return unary, binary, clues
 
 
 def main(args):
     puzzle = puz.read(args.puzzle)
+    print(puzzle.fill)
     constraints = get_constraints(puzzle)
     words = [
         "BOSS",
@@ -181,6 +183,7 @@ def main(args):
         "RYE",
     ]
     wordlist = sort_by_length(words)
+    print(wordlist)
     # TODO: fill in the blanks!
 
 
