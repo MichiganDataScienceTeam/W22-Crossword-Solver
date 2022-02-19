@@ -75,6 +75,49 @@ def get_constraints(puzzle):
     return unary, binary, clues
 
 
+def ac3(constraints, wordlist):
+    def satisfies(x_value, y_value, x, y):
+        x_idx, y_idx = binary[x][y]
+        return x_value[x_idx] == y_value[y_idx]
+
+    def arc_reduce(x, y):
+        change = False
+        domain_copy = list(domain[x])
+        for x_value in domain_copy:
+            satisfy = False
+
+            for y_value in domain[y]:
+                if satisfies(x_value, y_value, x, y):
+                    satisfy = True
+
+            if not satisfy:
+                domain[x].remove(x_value)
+                change = True
+
+        return change
+
+    unary, binary, clues = constraints
+    domain = {}
+
+    for i in unary.keys():
+        domain[i] = set(wordlist[unary[i]])
+    
+    worklist = [(x,y) for x in binary for y in binary[x] if x < y]
+
+    while worklist:
+        x, y = worklist[-1]
+        worklist.pop()
+
+        if arc_reduce(x, y):
+            if not domain[x]:
+                return "FAILURE"
+            else:
+                worklist.extend([(z, x) for x in binary for z in binary[x] if z != y])
+    
+    return domain
+
+    
+
 def main(args):
     puzzle = puz.read(args.puzzle)
     constraints = get_constraints(puzzle)
@@ -182,7 +225,7 @@ def main(args):
     ]
     wordlist = sort_by_length(words)
     # TODO: fill in the blanks!
-
+    print(ac3(constraints, wordlist))
 
 if __name__ == "__main__":
     parser = ArgumentParser()
