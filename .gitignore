@@ -1,3 +1,5 @@
+clues.tsv
+clues.tsv.tar.gz
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

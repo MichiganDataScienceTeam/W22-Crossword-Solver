@@ -13,9 +13,26 @@ def read_file():
     return adjacencies
 
 
+def solve(puzzle, adjacencies):
+    for k in puzzle:
+        if puzzle[k] is None:
+            for color in [1, 2, 3]:
+                neighboring = False
+                for neighbor in adjacencies[k]:
+                    if puzzle[neighbor] == color:
+                        neighboring = True
+                if neighboring:
+                    continue
+                puzzle[k] = color
+                solve(puzzle, adjacencies=adjacencies)
+            # puzzle[k] = None
+    return puzzle
+
 def main():
     graph = read_file()
-    print(graph)
+    assignments = {k: None for k in graph}
+    solved = solve(assignments, graph)
+    print(solved)
 
 
 if __name__ == "__main__":
